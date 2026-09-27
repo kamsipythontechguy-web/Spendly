@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#061016">
+  <meta name="description" content="Spendly — Track your spending, manage your budget and reach your financial goals.">
+  <link rel="manifest" href="./manifest.json">
+  <link rel="icon" href="./spendly-icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="./spendly-icon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <title>Spendly</title>
+</head>
+<body>
+<div class="app">
+
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark">₦</div>
+      <div>
+        <div class="brand-text">Spendly</div>
+        <div class="brand-subtitle">Track • Save • Reach More</div>
+      </div>
+    </div>
+    <button class="icon-button" id="themeBtn" aria-label="Toggle theme"><span id="themeIcon">☼</span></button>
+  </header>
+
+  <main>
+
+    <!-- HOME -->
+    <section class="page active" id="page-home">
+      <div class="greeting">
+        <div class="date-label" id="todayDate">Monday, September 28</div>
+        <h1 id="userGreeting">Hi, CBN 👋</h1>
+        <p>Here's your financial overview.</p>
+      </div>
+
+      <div class="balance-card">
+        <div class="balance-orb"></div>
+        <div class="balance-top">
+          <span>Total Balance</span>
+          <span class="status-pill">Available</span>
+        </div>
+        <div class="balance-value" id="totalBalance">₦0.00</div>
+        <div class="balance-bottom">
+          <div><span>Income</span><strong class="income-text" id="totalIncome">₦0.00</strong></div>
+          <div><span>Expenses</span><strong class="expense-text" id="totalExpense">₦0.00</strong></div>
+        </div>
+      </div>
+
+      <div class="quick-actions">
+        <button class="quick-action" data-action="income"><span class="quick-icon income">＋</span><b>Income</b></button>
+        <button class="quick-action" data-action="expense"><span class="quick-icon expense">−</span><b>Expense</b></button>
+        <button class="quick-action" data-action="goal"><span class="quick-icon goal">🎯</span><b>Goal</b></button>
+      </div>
+
+      <div class="section-head">
+        <div><span class="eyebrow">MONTHLY BUDGET</span><h2 id="currentMonth">September 2026</h2></div>
+        <button class="text-button" data-page-link="budget">Manage</button>
+      </div>
+
+      <div class="budget-overview-card">
+        <div class="budget-overview-top">
+          <div><span>Spent</span><strong id="monthlySpent">₦0.00</strong></div>
+          <div class="align-right"><span>Budget</span><strong id="homeBudget">₦0.00</strong></div>
+        </div>
+        <div class="progress-track"><div class="progress-fill" id="budgetProgress"></div></div>
+        <div class="budget-overview-bottom">
+          <span id="budgetMessage">Set a monthly budget to start tracking.</span>
+          <strong id="spendingPercent">0%</strong>
+        </div>
+      </div>
+
+      <div class="section-head">
+        <div><span class="eyebrow">RECENT ACTIVITY</span><h2>Transactions</h2></div>
+        <button class="text-button" data-page-link="activity">See all</button>
+      </div>
+      <div id="recentTransactions" class="transaction-list"></div>
+    </section>
+
+    <!-- ACTIVITY -->
+    <section class="page" id="page-activity">
+      <div class="page-heading">
+        <span class="eyebrow">MONEY MOVEMENT</span>
+        <h1>Activity</h1>
+        <p>Track every income and expense in one place.</p>
+      </div>
+
+      <div class="search-box">
+        <span>⌕</span><input id="transactionSearch" type="search" placeholder="Search transactions...">
+      </div>
+      <div class="filter-row">
+        <button class="filter-button active" data-filter="all">All</button>
+        <button class="filter-button" data-filter="income">Income</button>
+        <button class="filter-button" data-filter="expense">Expense</button>
+      </div>
+      <div id="allTransactions" class="transaction-list"></div>
+
+      <div class="section-head recurring-head">
+        <div><span class="eyebrow">AUTOMATIC MONEY</span><h2>Recurring</h2></div>
+        <button class="small-button" id="addRecurringBtn">＋ Add</button>
+      </div>
+      <div id="recurringList" class="recurring-list"></div>
+    </section>
+
+    <!-- BUDGET -->
+    <section class="page" id="page-budget">
+      <div class="page-heading">
+        <span class="eyebrow">SPENDING PLAN</span>
+        <h1>Budget</h1>
+        <p>Give every part of your money a purpose.</p>
+      </div>
+
+      <div class="main-budget-card">
+        <div class="budget-card-head"><div><span>This month</span><strong id="budgetMonthTitle">September 2026</strong></div><button class="small-button" id="editBudgetBtn">Edit</button></div>
+        <div class="budget-number-row"><strong id="budgetSpent">₦0.00</strong><span>of <b id="monthlyBudgetAmount">₦0.00</b></span></div>
+        <div class="progress-track large"><div class="progress-fill" id="mainBudgetProgress"></div></div>
+        <div class="budget-number-row small"><span id="budgetLeft">₦0.00 left</span><strong id="budgetPercent">0%</strong></div>
+      </div>
+
+      <div class="section-head"><div><span class="eyebrow">CATEGORY LIMITS</span><h2>Budgets</h2></div><button class="small-button" id="addBudgetBtn">＋ Add</button></div>
+      <div id="categoryBudgets" class="budget-list"></div>
+    </section>
+
+    <!-- GOALS -->
+    <section class="page" id="page-goals">
+      <div class="page-heading">
+        <span class="eyebrow">BUILD YOUR FUTURE</span>
+        <h1>Savings Goals</h1>
+        <p>Turn your plans into progress.</p>
+      </div>
+      <div class="goal-hero">
+        <div><span>Total saved across goals</span><strong id="totalGoalSaved">₦0.00</strong></div>
+        <div class="goal-hero-icon">🎯</div>
+      </div>
+      <div class="section-head"><div><span class="eyebrow">YOUR TARGETS</span><h2>Goals</h2></div><button class="small-button" id="addGoalBtn">＋ New goal</button></div>
+      <div id="goalsList" class="goals-list"></div>
+    </section>
+
+    <!-- STATS -->
+    <section class="page" id="page-stats">
+      <div class="page-heading">
+        <span class="eyebrow">YOUR NUMBERS</span>
+        <h1>Statistics</h1>
+        <p>See how your money is moving.</p>
+      </div>
+      <div class="period-row">
+        <button class="period-button active" data-period="week">Week</button>
+        <button class="period-button" data-period="month">Month</button>
+        <button class="period-button" data-period="year">Year</button>
+      </div>
+      <div class="stats-summary">
+        <div class="stat-box"><span>Income</span><strong class="income-text" id="statsIncome">₦0.00</strong></div>
+        <div class="stat-box"><span>Expenses</span><strong class="expense-text" id="statsExpense">₦0.00</strong></div>
+      </div>
+      <div class="chart-card">
+        <div class="card-title-row"><h2>Expenses</h2><span id="chartPeriodLabel">Last 7 days</span></div>
+        <div id="expenseChart" class="expense-chart"><div class="chart-empty">No expense data yet.</div></div>
+      </div>
+      <div class="chart-card"><div class="card-title-row"><h2>By category</h2></div><div id="categoryStats" class="category-stats"></div></div>
+    </section>
+
+    <!-- SETTINGS -->
+    <section class="page" id="page-settings">
+      <div class="page-heading"><span class="eyebrow">PERSONALIZE</span><h1>Settings</h1><p>Make Spendly work your way.</p></div>
+
+      <div class="profile-card">
+        <div class="profile-avatar" id="profileAvatar">C</div>
+        <div class="profile-info"><span>Your profile</span><strong id="profileName">CBN</strong></div>
+        <button class="small-button" id="editProfileBtn">Edit</button>
+      </div>
+
+      <div class="settings-group">
+        <div class="settings-label">PREFERENCES</div>
+        <button class="settings-item" id="currencySetting"><span class="settings-icon">₦</span><span><b>Currency</b><small id="selectedCurrency">NGN — ₦</small></span><span>›</span></button>
+        <button class="settings-item" id="themeSetting"><span class="settings-icon">☼</span><span><b>Appearance</b><small id="appearanceText">Dark mode</small></span><span>›</span></button>
+      </div>
+
+      <div class="settings-group">
+        <div class="settings-label">DATA</div>
+        <button class="settings-item" id="exportDataBtn"><span class="settings-icon">⇩</span><span><b>Export transactions</b><small>Download a CSV file</small></span><span>›</span></button>
+        <button class="settings-item danger-item" id="clearDataBtn"><span class="settings-icon">⌫</span><span><b>Clear all data</b><small>Delete local Spendly data</small></span><span>›</span></button>
+      </div>
+
+      <div class="about-card"><div class="about-logo">₦</div><strong>Spendly</strong><span>Track • Save • Reach More</span><small>Personal finance, kept simple.</small></div>
+    </section>
+  </main>
+
+  <nav class="bottom-nav">
+    <button class="nav-item active" data-page="home"><span>⌂</span><b>Home</b></button>
+    <button class="nav-item" data-page="activity"><span>↔</span><b>Activity</b></button>
+    <button class="nav-item" data-page="budget"><span>◫</span><b>Budget</b></button>
+    <button class="nav-item" data-page="goals"><span>🎯</span><b>Goals</b></button>
+    <button class="nav-item" data-page="stats"><span>⌁</span><b>Stats</b></button>
+    <button class="nav-item" data-page="settings"><span>⚙</span><b>Settings</b></button>
+  </nav>
+</div>
+
+<!-- TRANSACTION MODAL -->
+<div class="modal-overlay" id="transactionModal">
+  <div class="modal">
+    <div class="modal-head"><div><span class="eyebrow">NEW ENTRY</span><h2 id="transactionModalTitle">Add Expense</h2></div><button class="close-button" id="closeTransactionModal">×</button></div>
+    <div class="type-switch"><button class="type-button active" data-transaction-type="expense">Expense</button><button class="type-button" data-transaction-type="income">Income</button></div>
+    <label class="field"><span>Amount</span><div class="amount-wrap"><span id="amountCurrency">₦</span><input id="amountInput" type="number" min="0" step="0.01" placeholder="0.00" inputmode="decimal"></div></label>
+    <label class="field"><span>Category</span><select id="categoryInput"></select></label>
+    <label class="field"><span>Date</span><input id="dateInput" type="date"></label>
+    <label class="field"><span>Note</span><input id="noteInput" type="text" maxlength="80" placeholder="What was this for?"></label>
+    <button class="primary-button full" id="saveTransactionBtn">Save transaction</button>
+  </div>
+</div>
+
+<!-- BUDGET MODAL -->
+<div class="modal-overlay" id="budgetModal">
+  <div class="modal">
+    <div class="modal-head"><div><span class="eyebrow">SPENDING PLAN</span><h2 id="budgetModalTitle">Monthly budget</h2></div><button class="close-button" id="closeBudgetModal">×</button></div>
+    <label class="field"><span>Monthly budget</span><div class="amount-wrap"><span id="budgetCurrency">₦</span><input id="budgetInput" type="number" min="0" step="0.01" placeholder="0.00" inputmode="decimal"></div></label>
+    <button class="primary-button full" id="saveBudgetBtn">Save budget</button>
+  </div>
+</div>
+
+<!-- CATEGORY BUDGET MODAL -->
+<div class="modal-overlay" id="categoryBudgetModal">
+  <div class="modal">
+    <div class="modal-head"><div><span class="eyebrow">CATEGORY LIMIT</span><h2>Category budget</h2></div><button class="close-button" id="closeCategoryBudgetModal">×</button></div>
+    <label class="field"><span>Category</span><select id="categoryBudgetCategory"></select></label>
+    <label class="field"><span>Limit</span><div class="amount-wrap"><span id="categoryBudgetCurrency">₦</span><input id="categoryBudgetInput" type="number" min="0" step="0.01" placeholder="0.00" inputmode="decimal"></div></label>
+    <button class="primary-button full" id="saveCategoryBudgetBtn">Save category budget</button>
+  </div>
+</div>
+
+<!-- GOAL MODAL -->
+<div class="modal-overlay" id="goalModal">
+  <div class="modal">
+    <div class="modal-head"><div><span class="eyebrow">SAVINGS PLAN</span><h2 id="goalModalTitle">Create goal</h2></div><button class="close-button" id="closeGoalModal">×</button></div>
+    <label class="field"><span>Goal name</span><input id="goalNameInput" type="text" maxlength="40" placeholder="e.g. New laptop"></label>
+    <label class="field"><span>Target amount</span><div class="amount-wrap"><span id="goalTargetCurrency">₦</span><input id="goalTargetInput" type="number" min="0.01" step="0.01" placeholder="0.00" inputmode="decimal"></div></label>
+    <label class="field"><span>Already saved</span><div class="amount-wrap"><span id="goalInitialCurrency">₦</span><input id="goalInitialInput" type="number" min="0" step="0.01" placeholder="0.00" inputmode="decimal"></div></label>
+    <button class="primary-button full" id="saveGoalBtn">Create goal</button>
+  </div>
+</div>
+
+<!-- GOAL MONEY MODAL -->
+<div class="modal-overlay" id="goalMoneyModal">
+  <div class="modal">
+    <div class="modal-head"><div><span class="eyebrow">GOAL MONEY</span><h2 id="goalMoneyTitle">Add money</h2></div><button class="close-button" id="closeGoalMoneyModal">×</button></div>
+    <div class="goal-money-balance" id="goalMoneyBalance">₦0.00 saved</div>
+    <label class="field"><span id="goalMoneyLabel">Amount to add</span><div class="amount-wrap"><span id="goalMoneyCurrency">₦</span><input id="goalMoneyInput" type="number" min="0.01" step="0.01" placeholder="0.00" inputmode="decimal"></div></label>
+    <button class="primary-button full" id="saveGoalMoneyBtn">Add money</button>
+  </div>
+</div>
+
+<!-- RECURRING MODAL -->
+<div class="modal-overlay" id="recurringModal">
+  <div class="modal">
+    <div class="modal-head"><div><span class="eyebrow">AUTOMATE IT</span><h2 id="recurringModalTitle">Recurring transaction</h2></div><button class="close-button" id="closeRecurringModal">×</button></div>
+    <div class="type-switch"><button class="type-button active" data-recurring-type="expense">Expense</button><button class="type-button" data-recurring-type="income">Income</button></div>
+    <label class="field"><span>Amount</span><div class="amount-wrap"><span id="recurringCurrency">₦</span><input id="recurringAmountInput" type="number" min="0.01" step="0.01" placeholder="0.00" inputmode="decimal"></div></label>
+    <label class="field"><span>Category</span><select id="recurringCategoryInput"></select></label>
+    <label class="field"><span>Frequency</span><select id="recurringFrequencyInput"><option value="daily">Daily</option><option value="weekly">Weekly</option><option value="monthly" selected>Monthly</option><option value="yearly">Yearly</option></select></label>
+    <label class="field"><span>First payment date</span><input id="recurringDateInput" type="date"></label>
+    <label class="field"><span>Note</span><input id="recurringNoteInput" type="text" maxlength="80" placeholder="e.g. Netflix subscription"></label>
+    <button class="primary-button full" id="saveRecurringBtn">Create recurring</button>
+  </div>
+</div>
+
+<!-- PROFILE -->
+<div class="modal-overlay" id="profileModal">
+  <div class="modal">
+    <div class="modal-head"><div><span class="eyebrow">PROFILE</span><h2>Your name</h2></div><button class="close-button" id="closeProfileModal">×</button></div>
+    <label class="field"><span>Name</span><input id="nameInput" type="text" maxlength="30" placeholder="Your name"></label>
+    <button class="primary-button full" id="saveProfileBtn">Save profile</button>
+  </div>
+</div>
+
+<!-- CURRENCY -->
+<div class="modal-overlay" id="currencyModal">
+  <div class="modal">
+    <div class="modal-head"><div><span class="eyebrow">PREFERENCES</span><h2>Currency</h2></div><button class="close-button" id="closeCurrencyModal">×</button></div>
+    <div class="currency-options">
+      <button class="currency-option" data-currency="NGN" data-symbol="₦"><b>NGN</b><span>₦ Nigerian Naira</span></button>
+      <button class="currency-option" data-currency="USD" data-symbol="$"><b>USD</b><span>$ US Dollar</span></button>
+      <button class="currency-option" data-currency="GBP" data-symbol="£"><b>GBP</b><span>£ British Pound</span></button>
+      <button class="currency-option" data-currency="EUR" data-symbol="€"><b>EUR</b><span>€ Euro</span></button>
+    </div>
+  </div>
+</div>
+
+<!-- CONFIRM -->
+<div class="modal-overlay" id="confirmModal">
+  <div class="modal compact-modal">
+    <div class="confirm-icon">!</div><h2 id="confirmTitle">Are you sure?</h2><p id="confirmMessage">This action cannot be undone.</p>
+    <div class="confirm-actions"><button class="secondary-button" id="cancelConfirmBtn">Cancel</button><button class="danger-button" id="confirmActionBtn">Continue</button></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"><span id="toastIcon">✓</span><span id="toastMessage">Saved</span></div>
+
+<script src="app.js"></script>
+<script src="splash.js"></script>
+</body>
+</html>

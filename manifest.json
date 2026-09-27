@@ -1,0 +1,24 @@
+{
+  "name": "Spendly \u2014 Personal Finance",
+  "short_name": "Spendly",
+  "description": "Track your spending, manage your budget and reach your financial goals.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#061016",
+  "theme_color": "#00dca0",
+  "lang": "en",
+  "categories": [
+    "finance",
+    "productivity"
+  ],
+  "icons": [
+    {
+      "src": "./spendly-icon.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
